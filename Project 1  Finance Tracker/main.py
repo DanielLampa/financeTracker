@@ -4,6 +4,7 @@ from app.controllers import MainController
 class Application(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.title("Personal Finance Manager")
         self.geometry("400x300")
         self.controller = MainController(root=self)
 

@@ -1,24 +1,30 @@
 import tkinter as tk
 
 class MainView(tk.Frame):
+    def __init__(self, master=None, controller=None):
+        super().__init__(master)
+        self.master = master
+        self.controller = controller
+        self.pack()
+        self.create_widgets()
+
+
     def __init__(self, master=None, controller=None, income=0, expenses=0):
         super().__init__(master)
         self.master = master
         self.controller = controller
-        self.income = income
-        self.expenses = expenses
         self.pack()
-        self.create_widgets()
+        self.create_widgets(income, expenses)
 
-    def create_widgets(self):
+    def create_widgets(self, income, expenses):
         self.label = tk.Label(self, text="Personal Finance Manager")
         self.label.pack()
 
-        self.label = tk.Label(self, text=f"TOTAL INCOME: {self.income}")
-        self.label.pack()
+        self.income_label = tk.Label(self, text=f"TOTAL INCOME: {income}")
+        self.income_label.pack()
 
-        self.label = tk.Label(self, text=f"TOTAL EXPENSES: {self.expenses}")
-        self.label.pack()
+        self.expense_label = tk.Label(self, text=f"TOTAL EXPENSES: {expenses}")
+        self.expense_label.pack()
 
         self.income_button = tk.Button(self, text="Add Income", command=self.controller.show_income_view)
         self.income_button.pack()
