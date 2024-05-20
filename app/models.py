@@ -3,6 +3,26 @@ class Database:
     def __init__(self):
         self.db_connection = sqlite3.connect("finance.db")
         self.db_cursor = self.db_connection.cursor()
+        self.create_tables()
+
+    def create_tables(self):
+        self.db_cursor.execute("""
+        CREATE TABLE IF NOT EXISTS income (
+            id INTEGER PRIMARY KEY,
+            amount REAL,
+            date TEXT,
+            description TEXT
+        )
+        """)
+        self.db_cursor.execute("""
+        CREATE TABLE IF NOT EXISTS expense (
+            id INTEGER PRIMARY KEY,
+            amount REAL,
+            date TEXT,
+            description TEXT
+        )
+        """)
+        self.db_connection.commit()
 
     def get_total_expenses(self):
         self.db_cursor.execute("SELECT SUM(amount) FROM expense")

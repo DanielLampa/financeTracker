@@ -1,50 +1,36 @@
 from app.views import MainView, IncomeView, ExpenseView, ReportView
 from app.models import Database
 
+
 class MainController:
     def __init__(self, root):
         self.root = root
-        self.database = Database()
+        self.db = Database()  # Initialize the database connection
+        self.update_main_view()
 
-        # Fetch initial data
-        self.update_financial_data()
-
-        # Initialize main view
-        self.main_view = MainView(master=self.root, controller=self, income=self.income, expenses=self.expenses)
+    def update_main_view(self):
+        total_income = self.db.get_total_income()
+        total_expenses = self.db.get_total_expenses()
+        self.main_view = MainView(master=self.root, controller=self, income=total_income, expenses=total_expenses)
         self.main_view.pack()
 
-        self.income_view = None
-        self.expense_view = None
-        self.report_view = None
-
-    def update_financial_data(self):
-        self.income = self.database.get_total_income()
-        self.expenses = self.database.get_total_expenses()
-
-
     def show_income_view(self):
-        # Destroy current view if it exists
         if self.income_view:
             self.income_view.destroy()
-        # Create and show the income view
         self.income_view = IncomeView(master=self.root)
-        self.main_view.pack_forget()  # Hide main view
-        self.income_view.pack()# Show income view
+        self.main_view.pack_forget()
+        self.income_view.pack()
 
     def show_expense_view(self):
-        # Destroy current view if it exists
         if self.expense_view:
             self.expense_view.destroy()
-        # Create and show the expense view
         self.expense_view = ExpenseView(master=self.root)
-        self.main_view.pack_forget()  #Hide main view
-        self.expense_view.pack()      #Show expense view
+        self.main_view.pack_forget()
+        self.expense_view.pack()
 
     def show_report_view(self):
-        # Destroy current view if it exists
         if self.report_view:
             self.report_view.destroy()
-        # Create and show the report view
         self.report_view = ReportView(master=self.root)
-        self.main_view.pack_forget()  # Hide main view
-        self.report_view.pack()       # Show report view
+        self.main_view.pack_forget()
+        self.report_view.pack()
